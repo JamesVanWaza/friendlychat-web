@@ -2,15 +2,20 @@
   "name": "friendlychat-codelab",
   "description": "Firebase SDK for Cloud Functions codelab",
   "dependencies": {
-    "firebase-admin": "~8.4.0",
+    "firebase-admin": "^8.6.1",
     "firebase-functions": "^3.2.0"
   },
   "devDependencies": {
-    "eslint": "^4.12.0",
-    "eslint-plugin-promise": "^3.6.0"
+    "eslint": "^6.5.1",
+    "eslint-plugin-promise": "^4.2.1"
   },
   "engines": {
-    "node": "8"
+    "node": "12"
   },
-  "private": true
+  "private": true,
+  "version": "1.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/JamesVanWaza/friendlychat-web",
+  "author": "JamesVanWaza <info@dosbranding.com>",
+  "license": "MIT"
 }
