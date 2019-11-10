@@ -1,9 +1,0 @@
-{
-  "name": "friendlychat-web-demo",
-  "version": "1.0.1",
-  "description": "Testing of the FriendlyChat-Web Demo ",
-  "main": "index.html",
-  "repository": "https://github.com/JamesVanWaza/friendlychat-web",
-  "author": "JamesVanWaza <info@dosbranding.com>",
-  "license": "MIT"
-}

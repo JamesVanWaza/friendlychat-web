@@ -1,6 +1,6 @@
 {
-  "name": "friendlychat-codelab",
-  "description": "Firebase SDK for Cloud Functions codelab",
+  "name": "friendlychat-codelab-demo",
+  "description": "Firebase Web Chat App Codelab ",
   "dependencies": {
     "firebase-admin": "^8.6.1",
     "firebase-functions": "^3.2.0"
@@ -13,8 +13,8 @@
     "node": "12"
   },
   "private": true,
-  "version": "1.0.1",
-  "main": "index.js",
+  "version": "1.0.2",
+  "main": "index.html",
   "repository": "https://github.com/JamesVanWaza/friendlychat-web",
   "author": "JamesVanWaza <info@dosbranding.com>",
   "license": "MIT"
