@@ -1,22 +1,3 @@
-ekWoQ74N_ggH6PXNuapZeR:APA91bEalOq_dc2Oslo824J-Nm1TRBgtWr3AF8xkRkUH2bJd1XPim3Tm6gepJ2Ni7zRE-gmFRw3IARpxi_j3HjNx8JS0jNEcNjgAsUHvjLxBoQtHRvNihwvF62cRObxH3yUCqWqPKm6s
-
-
-SERVER KEY 
-AAAA-yVtXG4:APA91bEsrRwDXBqqFG7VUwH8-jniOTCR0lGQ8iwwLgiS3cOIOoSfupeRm6mVDs8zEMmWD_lZh3FhwODs6jA26461HVvhxnpgVobVXfH55Qy9UWjGeEA2MHSRGqqCZ0akXaY6Q6Q8lpJR
-
-curl -H "Content-Type: application/json" \
-     -H "Authorization: key=AAAA-yVtXG4:APA91bEsrRwDXBqqFG7VUwH8-jniOTCR0lGQ8iwwLgiS3cOIOoSfupeRm6mVDs8zEMmWD_lZh3FhwODs6jA26461HVvhxnpgVobVXfH55Qy9UWjGeEA2MHSRGqqCZ0akXaY6Q6Q8lpJR" \
-     -d '{
-           "notification": {
-             "title": "New chat message!",
-             "body": "There is a new message in FriendlyChat",
-             "icon": "/images/profile_placeholder.png",
-             "click_action": "http://localhost:5000"
-           },
-           "to": "ekWoQ74N_ggH6PXNuapZeR:APA91bEalOq_dc2Oslo824J-Nm1TRBgtWr3AF8xkRkUH2bJd1XPim3Tm6gepJ2Ni7zRE-gmFRw3IARpxi_j3HjNx8JS0jNEcNjgAsUHvjLxBoQtHRvNihwvF62cRObxH3yUCqWqPKm6s"
-         }' \
-     https://fcm.googleapis.com/fcm/send
-
 /**
  * Copyright 2018 Google Inc. All Rights Reserved.
  *
