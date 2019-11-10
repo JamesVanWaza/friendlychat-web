@@ -1,3 +1,22 @@
+ekWoQ74N_ggH6PXNuapZeR:APA91bEalOq_dc2Oslo824J-Nm1TRBgtWr3AF8xkRkUH2bJd1XPim3Tm6gepJ2Ni7zRE-gmFRw3IARpxi_j3HjNx8JS0jNEcNjgAsUHvjLxBoQtHRvNihwvF62cRObxH3yUCqWqPKm6s
+
+
+SERVER KEY 
+AAAA-yVtXG4:APA91bEsrRwDXBqqFG7VUwH8-jniOTCR0lGQ8iwwLgiS3cOIOoSfupeRm6mVDs8zEMmWD_lZh3FhwODs6jA26461HVvhxnpgVobVXfH55Qy9UWjGeEA2MHSRGqqCZ0akXaY6Q6Q8lpJR
+
+curl -H "Content-Type: application/json" \
+     -H "Authorization: key=AAAA-yVtXG4:APA91bEsrRwDXBqqFG7VUwH8-jniOTCR0lGQ8iwwLgiS3cOIOoSfupeRm6mVDs8zEMmWD_lZh3FhwODs6jA26461HVvhxnpgVobVXfH55Qy9UWjGeEA2MHSRGqqCZ0akXaY6Q6Q8lpJR" \
+     -d '{
+           "notification": {
+             "title": "New chat message!",
+             "body": "There is a new message in FriendlyChat",
+             "icon": "/images/profile_placeholder.png",
+             "click_action": "http://localhost:5000"
+           },
+           "to": "ekWoQ74N_ggH6PXNuapZeR:APA91bEalOq_dc2Oslo824J-Nm1TRBgtWr3AF8xkRkUH2bJd1XPim3Tm6gepJ2Ni7zRE-gmFRw3IARpxi_j3HjNx8JS0jNEcNjgAsUHvjLxBoQtHRvNihwvF62cRObxH3yUCqWqPKm6s"
+         }' \
+     https://fcm.googleapis.com/fcm/send
+
 /**
  * Copyright 2018 Google Inc. All Rights Reserved.
  *
@@ -86,38 +105,57 @@ function loadMessages() {
 // Saves a new message containing an image in Firebase.
 // This first saves the image in Firebase storage.
 function saveImageMessage(file) {
-    // 1 -  We add a message with a loading icon that will get updated with the shared image
-	firebase.firestore().collection('messages').add({
-		name: getUserName(),
-		imageUrl: LOADING_IMAGE_URL,
-		profilePicUrl : getProfilePicUrl(),
-		timestamp: firebase.firestore.FieldValue.serverTimestamp()
-	}).then(function(messageRef){
-		// 2 - Upload the image to Cloud Storage. 
-		var filepath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
-		return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot){
-			// 3 - Generate a public URL for the file.
-			return fileSnapshot.ref.getDownloadURL().then((url) => {
-				// 4 - Update the chat message placeholder with the image's URL. 
-				return messageRef.update({
-					imageUrl: url,
-					storageUri: fileSnapshot.metadata.fullPath
-				});
-			});
-		});
-	}).catch(function(error){
-		console.error('There was an error uploading a file to Cloud Storage', error);
-	});
+  // 1 - We add a message with a loading icon that will get updated with the shared image.
+  firebase.firestore().collection('messages').add({
+    name: getUserName(),
+    imageUrl: LOADING_IMAGE_URL,
+    profilePicUrl: getProfilePicUrl(),
+    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function(messageRef) {
+    // 2 - Upload the image to Cloud Storage.
+    var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
+    return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
+      // 3 - Generate a public URL for the file.
+      return fileSnapshot.ref.getDownloadURL().then((url) => {
+        // 4 - Update the chat message placeholder with the image's URL.
+        return messageRef.update({
+          imageUrl: url,
+          storageUri: fileSnapshot.metadata.fullPath
+        });
+      });
+    });
+  }).catch(function(error) {
+    console.error('There was an error uploading a file to Cloud Storage:', error);
+  });
 }
 
 // Saves the messaging device token to the datastore.
 function saveMessagingDeviceToken() {
-    // TODO 10: Save the device token in the realtime datastore
+    firebase.messaging().getToken().then(function(currentToken){
+		if(currentToken) {
+			console.log('Got FCM device token:', currentToken);
+			
+			// Saving the Device Token to the datastore.
+			firebase.firestore().collection('fcmTokens').doc(currentToken)
+				.set({uid: firebase.auth().currentUser.uid});
+		} else {
+			// Need to request permissions to show notifications. 
+			requestNotificationsPermissions();
+		}
+	}).catch(function(error){
+		console.error('Unable to get messaging token.', error);
+	});
 }
 
 // Requests permissions to show notifications.
 function requestNotificationsPermissions() {
-    // TODO 11: Request permissions to send notifications.
+    console.log('Requesting notifications permission...');
+	firebase.messaging().requestPermission().then(function(){
+		// Notification permission granted. 
+		saveMessagingDeviceToken();
+	}).catch(function(error){
+		console.error('Unable to get permission to notify', error);
+	});
 }
 
 // Triggered when a file is selected via the media picker.
