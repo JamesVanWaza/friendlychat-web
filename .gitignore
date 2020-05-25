@@ -14,3 +14,5 @@ cloud-functions/functions/node_modules
 firebase-debug.log
 .firebase
 node_modules/.yarn-integrity
+web-start/firestore.rules
+web-start/storage.rules
