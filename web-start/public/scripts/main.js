@@ -385,7 +385,7 @@ mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 // initialize Firebase
 initFirebaseAuth();
 
-// Remove the warning about timstamps change. 
+// Remove the warning about timestamps change. 
 var firestore = firebase.firestore();
 var settings = {
     timestampsInSnapshots: true
