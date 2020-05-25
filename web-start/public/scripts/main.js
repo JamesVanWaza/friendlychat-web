@@ -86,57 +86,57 @@ function loadMessages() {
 // Saves a new message containing an image in Firebase.
 // This first saves the image in Firebase storage.
 function saveImageMessage(file) {
-  // 1 - We add a message with a loading icon that will get updated with the shared image.
-  firebase.firestore().collection('messages').add({
-    name: getUserName(),
-    imageUrl: LOADING_IMAGE_URL,
-    profilePicUrl: getProfilePicUrl(),
-    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-  }).then(function(messageRef) {
-    // 2 - Upload the image to Cloud Storage.
-    var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
-    return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
-      // 3 - Generate a public URL for the file.
-      return fileSnapshot.ref.getDownloadURL().then((url) => {
-        // 4 - Update the chat message placeholder with the image's URL.
-        return messageRef.update({
-          imageUrl: url,
-          storageUri: fileSnapshot.metadata.fullPath
+    // 1 - We add a message with a loading icon that will get updated with the shared image.
+    firebase.firestore().collection('messages').add({
+        name: getUserName(),
+        imageUrl: LOADING_IMAGE_URL,
+        profilePicUrl: getProfilePicUrl(),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(function(messageRef) {
+        // 2 - Upload the image to Cloud Storage.
+        var filePath = firebase.auth().currentUser.uid + '/' + messageRef.id + '/' + file.name;
+        return firebase.storage().ref(filePath).put(file).then(function(fileSnapshot) {
+            // 3 - Generate a public URL for the file.
+            return fileSnapshot.ref.getDownloadURL().then((url) => {
+                // 4 - Update the chat message placeholder with the image's URL.
+                return messageRef.update({
+                    imageUrl: url,
+                    storageUri: fileSnapshot.metadata.fullPath
+                });
+            });
         });
-      });
+    }).catch(function(error) {
+        console.error('There was an error uploading a file to Cloud Storage:', error);
     });
-  }).catch(function(error) {
-    console.error('There was an error uploading a file to Cloud Storage:', error);
-  });
 }
 
 // Saves the messaging device token to the datastore.
 function saveMessagingDeviceToken() {
-    firebase.messaging().getToken().then(function(currentToken){
-		if(currentToken) {
-			console.log('Got FCM device token:', currentToken);
-			
-			// Saving the Device Token to the datastore.
-			firebase.firestore().collection('fcmTokens').doc(currentToken)
-				.set({uid: firebase.auth().currentUser.uid});
-		} else {
-			// Need to request permissions to show notifications. 
-			requestNotificationsPermissions();
-		}
-	}).catch(function(error){
-		console.error('Unable to get messaging token.', error);
-	});
+    firebase.messaging().getToken().then(function(currentToken) {
+        if (currentToken) {
+            console.log('Got FCM device token:', currentToken);
+
+            // Saving the Device Token to the datastore.
+            firebase.firestore().collection('fcmTokens').doc(currentToken)
+                .set({ uid: firebase.auth().currentUser.uid });
+        } else {
+            // Need to request permissions to show notifications. 
+            requestNotificationsPermissions();
+        }
+    }).catch(function(error) {
+        console.error('Unable to get messaging token.', error);
+    });
 }
 
 // Requests permissions to show notifications.
 function requestNotificationsPermissions() {
     console.log('Requesting notifications permission...');
-	firebase.messaging().requestPermission().then(function(){
-		// Notification permission granted. 
-		saveMessagingDeviceToken();
-	}).catch(function(error){
-		console.error('Unable to get permission to notify', error);
-	});
+    firebase.messaging().requestPermission().then(function() {
+        // Notification permission granted. 
+        saveMessagingDeviceToken();
+    }).catch(function(error) {
+        console.error('Unable to get permission to notify', error);
+    });
 }
 
 // Triggered when a file is selected via the media picker.
