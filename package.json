@@ -5,5 +5,8 @@
     "main": "index.js",
     "repository": "https://github.com/JamesVanWaza/friendlychat-web.git",
     "author": "JamesVanWaza <info@dosbranding.com>",
-    "license": "MIT"
+    "license": "MIT",
+    "dependencies": {
+        "firebase": "^7.16.0"
+    }
 }
