@@ -1,5 +1,4 @@
 {
-    // If you went through the "Cloud Firestore Security Rules" step.
     "firestore": {
         "rules": "firestore.rules"
     },
