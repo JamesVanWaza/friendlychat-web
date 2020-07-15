@@ -1,15 +1,16 @@
 {
     "name": "friendlychat-codelab",
     "description": "Firebase SDK for Cloud Functions codelab",
-    "dependencies": {},
+    "dependencies": {
+        "firebase-admin": "^9.0.0"
+    },
     "devDependencies": {
         "eslint": "^7.4.0",
         "eslint-plugin-promise": "^4.2.1",
-        "firebase-admin": "^9.0.0",
         "firebase-functions": "^3.8.0"
     },
     "engines": {
-        "node": "10"
+        "node": "12.x"
     },
     "private": true,
     "version": "2.1.0",
