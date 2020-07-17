@@ -45,50 +45,50 @@ exports.addWelcomeMessages = functions.auth.user().onCreate(async(user) => {
 });
 
 // TODO(DEVELOPER): Write the blurOffensiveImages Function here.
-// Checks if uploaded images are flagged as Adult or Violence and if so blurs them. 
-exports.blurOffensiveImages = functions.runWith({ memory: '2GB' }).storage.object().onFinalize(async(object) => {
-    const image = {
-        source: { imageUri: `gs://${object.bucket}/${object.name}` }
-    }
+// Checks if uploaded images are flagged as Adult or Violence and if so blurs them.
+exports.blurOffensiveImages = functions.runWith({ memory: '2GB' }).storage.object().onFinalize(
+    async(object) => {
+        const image = {
+            source: { imageUri: `gs://${object.bucket}/${object.name}` },
+        };
 
-    // Check the image content using the Cloud Vision API
-    const batchAnnotateImagesResponse = await vision.safeSearchDetection(image);
-    const safeSearchResult = batchAnnotateImagesResponse[0].safeSearchAnnotation;
-    const Likelihood = Vision.types.Likelihood;
-
-    if (Likelihood[safeSearchResult.adult] >= Likelihood.LIKELY ||
-        Likelihood[safeSearchResult.violence] >= Likelihood.LIKELY) {
-        console.log('The image', object.name, 'has been detected as inappropriate.');
-        return blurImage(object.name);
-    }
-    console.log('The image', object.name, 'has been detected as OK.');
-});
+        // Check the image content using the Cloud Vision API.
+        const batchAnnotateImagesResponse = await vision.safeSearchDetection(image);
+        const safeSearchResult = batchAnnotateImagesResponse[0].safeSearchAnnotation;
+        const Likelihood = Vision.types.Likelihood;
+        if (Likelihood[safeSearchResult.adult] >= Likelihood.LIKELY ||
+            Likelihood[safeSearchResult.violence] >= Likelihood.LIKELY) {
+            console.log('The image', object.name, 'has been detected as inappropriate.');
+            return blurImage(object.name);
+        }
+        console.log('The image', object.name, 'has been detected as OK.');
+    });
 
 // Blurs the given image located in the given bucket using ImageMagick.
 async function blurImage(filePath) {
     const tempLocalFile = path.join(os.tmpdir(), path.basename(filePath));
-    const messageId = filePath.split(path.sep[1]);
+    const messageId = filePath.split(path.sep)[1];
     const bucket = admin.storage().bucket();
 
-    // Download file from bucket
+    // Download file from bucket.
     await bucket.file(filePath).download({ destination: tempLocalFile });
     console.log('Image has been downloaded to', tempLocalFile);
 
-    // Blur the image using ImageMagick
-    await spawn('convert', [tempLocalFile, '-channel', 'RGBA', '-blur', '0*24', tempLocalFile]);
+    // Blur the image using ImageMagick.
+    await spawn('convert', [tempLocalFile, '-channel', 'RGBA', '-blur', '0x24', tempLocalFile]);
     console.log('Image has been blurred');
 
-    // Uploading the Blurred image back into the bucket. 
+    // Uploading the Blurred image back into the bucket.
     await bucket.upload(tempLocalFile, { destination: filePath });
     console.log('Blurred image has been uploaded to', filePath);
 
-    // Deleting the local file to free up disk space. 
+    // Deleting the local file to free up disk space.
     fs.unlinkSync(tempLocalFile);
     console.log('Deleted local file.');
 
-    // Indicate that the message has been moderated. 
+    // Indicate that the message has been moderated.
     await admin.firestore().collection('messages').doc(messageId).update({ moderated: true });
-    console.log('Marked the image as moderated in the database');
+    console.log('Marked the image as moderated in the database.');
 }
 
 // TODO(DEVELOPER): Write the sendNotifications Function here.
