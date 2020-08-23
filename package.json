@@ -1,12 +1,26 @@
 {
-    "name": "friendlychat-web",
-    "version": "1.0.1",
-    "description": "Google Firebase FriendlychatWeb Demo",
-    "main": "index.js",
-    "repository": "https://github.com/JamesVanWaza/friendlychat-web.git",
-    "author": "JamesVanWaza <info@dosbranding.com>",
-    "license": "MIT",
-    "dependencies": {
-        "firebase": "^7.16.0"
-    }
+  "name": "friendlychat-web",
+  "version": "1.0.2",
+  "description": "Google Firebase FriendlychatWeb Demo",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesVanWaza/friendlychat-web.git"
+  },
+  "author": "JamesVanWaza <info@dosbranding.com>",
+  "license": "MIT",
+  "dependencies": {
+    "firebase": "^7.19.0"
+  },
+  "bugs": {
+    "url": "https://github.com/JamesVanWaza/friendlychat-web/issues"
+  },
+  "homepage": "https://github.com/JamesVanWaza/friendlychat-web#readme",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Firebase"
+  ]
 }

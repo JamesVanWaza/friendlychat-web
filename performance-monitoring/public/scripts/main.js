@@ -74,7 +74,7 @@ function loadMessages() {
         deleteMessage(change.doc.id);
       } else {
         var message = change.doc.data();
-        displayMessage(change.doc.id, message.timestamp.toMillis(), message.name,
+        displayMessage(change.doc.id, message.timestamp, message.name,
                        message.text, message.profilePicUrl, message.imageUrl);
       }
     });
@@ -396,9 +396,6 @@ mediaCaptureElement.addEventListener('change', onMediaFileSelected);
 
 // initialize Firebase
 initFirebaseAuth();
-
-// Remove the warning about timstamps change. 
-var firestore = firebase.firestore();
 
 // TODO: Initialize Firebase Performance Monitoring.
 firebase.performance();
