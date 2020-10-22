@@ -1,7 +1,7 @@
 {
-  "name": "web-start",
-  "version": "1.0.1",
-  "description": "Firebase-Web-Codelab-Training",
-  "main": "index.js",
-  "license": "MIT"
+    "name": "web-start",
+    "version": "1.0.1",
+    "description": "Firebase-Web-Codelab-Training",
+    "main": "index.js",
+    "license": "MIT"
 }
