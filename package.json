@@ -10,7 +10,7 @@
   "author": "JamesVanWaza <info@dosbranding.com>",
   "license": "MIT",
   "dependencies": {
-    "firebase": "^7.19.0"
+    "firebase": "^7.24.0"
   },
   "bugs": {
     "url": "https://github.com/JamesVanWaza/friendlychat-web/issues"
