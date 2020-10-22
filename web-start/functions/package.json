@@ -10,7 +10,7 @@
         "firebase-functions": "^3.6.1"
     },
     "engines": {
-        "node": "10"
+        "node": "12"
     },
     "private": true,
     "version": "1.0.6",
